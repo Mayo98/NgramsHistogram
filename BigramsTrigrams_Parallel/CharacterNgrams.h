@@ -24,7 +24,7 @@ public:
 
     void runCharacterNgrams_parallel(const string &filename);
 
-    vector<string> extractNgramsFromWord(const string& str);
+    //vector<string> extractNgramsFromWord(const string& str);
 
     int getNgramLength() const;
 

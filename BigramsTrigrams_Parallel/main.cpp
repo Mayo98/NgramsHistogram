@@ -22,7 +22,7 @@ using namespace std;
 int clean_txt() {
 
     // Funzione per rimuovere punteggiatura e portare testo in minuscolo
-    string filename = "./input.txt";
+    string filename = "./inputPPP.txt";
     ifstream input(filename);
     if (!input.is_open()) {
         std::cout << "Current path is " << std::filesystem::current_path() << '\n'; // (1)
@@ -97,7 +97,7 @@ double averageCSequentialExecutions(int n, std::string path) {
 }
 double averageCParallelExecutions(int n, std::string path) {
     //w.runWordNgrams("../clean_input.txt");
-    int num_test = 5;
+    int num_test = 2;
     double mediaP;
     double sum;
     CharacterNgrams c(n);
@@ -119,7 +119,7 @@ double averageCParallelExecutions(int n, std::string path) {
 
 
 double averageWParallelExecutions(int n, std::string path, WordNgrams w) {
-    int num_test = 5;
+    int num_test = 2;
     double mediaP;
     //WordNgrams w(n);
     double sum;
@@ -140,7 +140,7 @@ double averageWParallelExecutions(int n, std::string path, WordNgrams w) {
 }
 int main() {
     int n = 3; //n-gramma
-    clean_txt();
+    //clean_txt();
 
     //word
     WordNgrams w(n);

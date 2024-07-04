@@ -11,18 +11,15 @@
 #include <omp.h>
 void printCharacterHistogram(unordered_map<string, int> histogram) {
     string ngram;
-    int count;
+
 
     //ordino in modo decrescente
-    auto startS = std::chrono::steady_clock::now();
     priority_queue<pair<int, string>> q;
-
 
     for (auto& [ngram, count]: histogram) {
         count++;
         q.push({count, ngram});
     }
-    std::cout<<count<<std::endl;
 
     // stampo n-grammi più numerosi
 
@@ -31,9 +28,7 @@ void printCharacterHistogram(unordered_map<string, int> histogram) {
         q.pop();
         cout << ngram << ": " << count << endl;
     }
-    auto endS = std::chrono::steady_clock::now();
-    auto durationS = std::chrono::duration_cast<std::chrono::milliseconds>(endS - startS);
-    std::cout << "Tempo di esecuzione print " << durationS.count() << " millisecondi" << std::endl;
+
 }
 /* VALIDO --
 void CharacterNgrams::runCharacterNgrams(const string& filename) {
@@ -87,6 +82,7 @@ void CharacterNgrams::runCharacterNgrams(const string& filename) {
     }
     printCharacterHistogram(histogram);
 }
+/*
 vector<string> CharacterNgrams::extractNgramsFromWord(const string& word) {
 
     int n = getNgramLength();
@@ -102,29 +98,11 @@ vector<string> CharacterNgrams::extractNgramsFromWord(const string& word) {
     }
 
     return ngrams;
-    /*   for (int i = 0; i < word.size() - (n - 1); i++) {
-       std::string ngram = word.substr(i, n);
-       bool isAlphanumeric = true;
 
-       // Verifica se la stringa ngram contiene solo caratteri alfanumerici
-       for (char c: ngram) {
-           if (!std::isalnum(c, std::locale("it_IT.UTF-8"))) {
-               isAlphanumeric = false;
-               break;
-           }
-       }
+}
+ */
 
-       // Aggiungi la stringa al vettore solo se è alfanumerica
-       if (isAlphanumeric) {
-           ngrams.push_back(ngram);
-       }
-   }
-}
-return ngrams;
-}
 
-*/
-}
 void CharacterNgrams::runCharacterNgrams_parallel(const string& filename) {
     //std::locale loc;
     cout << "Calcolo n-grammi di caratteri ..." << endl;
@@ -138,7 +116,6 @@ void CharacterNgrams::runCharacterNgrams_parallel(const string& filename) {
     std::stringstream buffer;
     buffer << inputFile.rdbuf();
     std::string text = buffer.str();
-    //std::cout<< "txt.lenght(): "<<text.length()<<std::endl;
 
     int numThreads = 2;              // Definisci il numero di thread desiderato
 
@@ -162,17 +139,11 @@ void CharacterNgrams::runCharacterNgrams_parallel(const string& filename) {
             // The last thread may have extra items.
             threadEndIdx = end_idx - 1;
         }
-//#pragma omp critical
-        //std::cout<<"thread "<<omp_get_thread_num()<<" item: "<<text[threadStartIdx]<<" end: "<<text[threadEndIdx]<<std::endl;
+
         for (size_t i = threadStartIdx; i <= threadEndIdx  ; i++) {
             bool valid = true;
 
-
             std::string currentNgram = text.substr(i, n);
-            if(i == threadEndIdx -n){
-//#pragma omp critical
-                //std::cout<<"ultimo "<<currentNgram<<" thr: "<<omp_get_thread_num()<<std::endl;
-            }
             for (char c: currentNgram) {
                 if (!std::isalnum(c)) {
                     valid = false;
